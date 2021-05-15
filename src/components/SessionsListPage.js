@@ -26,7 +26,7 @@ export default function SessionsListPage(){
     return(
         <SessionsList>
             <h2>Selecione o horário</h2>
-            <ul className="main-list">
+            <MainList>
                 {filmSessions.days.map((day)=>{
                     return(
                         <li key={day.id}>
@@ -44,8 +44,7 @@ export default function SessionsListPage(){
                         </li>
                     );
                 })}
-                
-            </ul>
+            </MainList>
             <Footer>
                 <div>
                     <img src={filmSessions.posterURL}alt=""></img>
@@ -69,25 +68,24 @@ const SessionsList = styled.div`
         color: #293845;
         text-align: center;
     }
-    ul{
-        margin-top: 20px;
-        overflow-y: scroll;
-    }
-    ul.main-list{
-        margin-bottom: 120px;
-    }
-    ul li{
+`;
+
+const MainList = styled.ul`
+    margin-top: 20px;
+    overflow-y: scroll;
+    margin-bottom: 120px;
+    li{
         margin-top: 23px;
     }
-    ul li h3{
+    li h3{
         font-size: 20px;
         color: #293845;
     }
-    ul li ul{
+    li ul{
         display: flex;
         flex-wrap: wrap;
     }
-    ul li ul li{
+    li ul li{
         margin-top: 0;
         width: 83px;
         height: 43px;
@@ -98,11 +96,10 @@ const SessionsList = styled.div`
         margin-right: 8px;
         margin-top: 8px;
     }
-    ul li ul li p{
+    li ul li p{
         color: #FFFFFF;
         font-size: 18px;
     }
-    
 `;
 
 const Footer = styled.div`

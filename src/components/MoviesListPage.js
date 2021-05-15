@@ -1,8 +1,20 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import {useState, useEffect} from 'react';
+import axios from 'axios';
 
-export default function MoviesListPage(props){
-    if(!props.movies[0]){
+export default function MoviesListPage(){
+    const [movies, setMovies] = useState([]);
+    useEffect(()=>{
+        const url = 'https://mock-api.bootcamp.respondeai.com.br/api/v2/cineflex/movies';
+        const requestPromise = axios.get(url);
+        requestPromise.then((request)=>{
+            setMovies(request.data);
+        })
+    }, []);
+
+
+    if(!movies[0]){
         return(
             <MoviesList>
                 <h2>Carregando Filmes...</h2>
@@ -15,7 +27,7 @@ export default function MoviesListPage(props){
         <MoviesList>
             <h2>Selecione o Filme</h2>
             <ul>
-                {props.movies.map((movie, idx)=>{
+                {movies.map((movie, idx)=>{
                     const url = "/sessoes/" + movie.id;
                     return(
                         <li key={idx}><Link to={url}><img src={movie.posterURL} alt=""></img></Link></li>
