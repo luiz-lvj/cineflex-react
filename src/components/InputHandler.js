@@ -59,7 +59,57 @@ export default function InputHandler(props){
         const requestPromise = axios.post(url, {...buyers});
         requestPromise.then((request)=>{
             props.setSelectedSeats([]);
+            const sent = JSON.parse(request.config.data)
+            const seatsBuyers = sent.compradores;
+            const seatsNames = sent.ids.map(id => getSeatName(id));
         })
+    }
+
+    const [errorMsg, setErrorMsg] = useState("");
+
+    function checkInputs(){
+        const objs = buyers.compradores;
+        const nameError = "Há nomes Vazios. Todos devem estar preenchidos.\n";
+        const CPFError = "O CPF deve conter 11 dígitos e todos devem ser numéricos";
+        for(let i = 0; i < objs.length; i++){
+            const isValidName = validateName(objs[i].nome);
+            const isValidCPF = validateCPF(objs[i].cpf);
+            let errors = "";
+            if(isValidName && isValidCPF){
+                setErrorMsg(errors);
+                sendData();
+                return;
+            }
+            if(!isValidName){
+                errors += nameError;
+            }
+            if(!isValidCPF){
+                errors += CPFError;
+            }
+            setErrorMsg(errors);
+        }        
+    }
+
+    function validateName(inputName){
+        const nameNoSpaces = inputName.trim();
+        if(nameNoSpaces.length <= 0){
+            return false;
+        }
+        return true;
+    }
+
+    function validateCPF(inputCPF){
+        const digits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+        const CPFNoSpace = inputCPF.trim();
+        if(CPFNoSpace.length !== 11){
+            return false;
+        }
+        for(let i = 0; i< inputCPF.length; i++){
+            if(!digits.includes(inputCPF[i])){
+                return false;
+            }
+        }
+        return true;
     }
 
     function getSeatName(id){
@@ -90,8 +140,9 @@ export default function InputHandler(props){
                 <InputsFromUser key={id.toString()} id={id}/>
             );
         })}
+        <ErrorMessages><p>{errorMsg}</p></ErrorMessages>
         {props.selectedSeats.length > 0 ?
-            <ButtonSubmit onClick={sendData}>Reservar assento(s)</ButtonSubmit>
+            <ButtonSubmit onClick={checkInputs}>Reservar assento(s)</ButtonSubmit>
         : <></>}
         </>
     );
@@ -131,4 +182,13 @@ const ButtonSubmit = styled.button`
     align-items: center;
     justify-content: center;
     color: #FFFFFF;
+`;
+
+const ErrorMessages = styled.div`
+    p{
+        color: red;
+        font-size: 11px;
+        display: block;
+        margin-bottom: 4px;
+    }
 `;
