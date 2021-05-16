@@ -2,7 +2,7 @@ import { useParams } from "react-router";
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import MainListSessions from './MainListSessions';
 
 
 export default function SessionsListPage(){
@@ -26,25 +26,9 @@ export default function SessionsListPage(){
     return(
         <SessionsList>
             <h2>Selecione o horário</h2>
-            <MainList>
-                {filmSessions.days.map((day)=>{
-                    return(
-                        <li key={day.id}>
-                            <h3>{day.weekday} - {day.date}</h3>
-                            <ul>
-                                {day.showtimes.map((time)=>{
-                                    const url = "/assentos/" + time.id;
-                                    return(
-                                        <Link to={url} key={time.id}>
-                                            <li><p>{time.name}</p></li>
-                                        </Link>
-                                    );
-                                })}
-                            </ul>
-                        </li>
-                    );
-                })}
-            </MainList>
+
+            <MainListSessions filmSessions={filmSessions}/>
+
             <Footer>
                 <div>
                     <img src={filmSessions.posterURL}alt=""></img>
@@ -70,39 +54,8 @@ const SessionsList = styled.div`
     }
 `;
 
-const MainList = styled.ul`
-    margin-top: 20px;
-    overflow-y: scroll;
-    margin-bottom: 120px;
-    li{
-        margin-top: 23px;
-    }
-    li h3{
-        font-size: 20px;
-        color: #293845;
-    }
-    li ul{
-        display: flex;
-        flex-wrap: wrap;
-    }
-    li ul li{
-        margin-top: 0;
-        width: 83px;
-        height: 43px;
-        background: #E8833A;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-right: 8px;
-        margin-top: 8px;
-    }
-    li ul li p{
-        color: #FFFFFF;
-        font-size: 18px;
-    }
-`;
 
-const Footer = styled.div`
+export const Footer = styled.div`
     position: fixed;
     left: 0;
     right: 0;

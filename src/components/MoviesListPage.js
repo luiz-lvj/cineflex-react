@@ -23,19 +23,25 @@ export default function MoviesListPage(){
     }
     
     return(
-        <>
         <MoviesList>
             <h2>Selecione o Filme</h2>
             <ul>
                 {movies.map((movie, idx)=>{
                     const url = "/sessoes/" + movie.id;
                     return(
-                        <li key={idx}><Link to={url}><img src={movie.posterURL} alt=""></img></Link></li>
+                        <SingleMovie idx={idx} url={url} posterURL={movie.posterURL}/>
                     );
                 })}
             </ul>
         </MoviesList>
-        </>
+    );
+}
+
+function SingleMovie(props){
+    return(
+        <li key={props.idx}>
+            <Link to={props.url}><img src={props.posterURL} alt=""></img></Link>
+        </li>
     );
 }
 
