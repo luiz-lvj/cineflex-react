@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import { UnAvailableSeat, AvailableSeat, SelectedSeat } from './SeatsSelection';
 
 export default function Seats(props){
-
     function selectSeat(seatId){
         let availableToSelect = [...props.selectedSeats];
         if(!availableToSelect.includes(seatId)){
@@ -20,26 +19,32 @@ export default function Seats(props){
         props.setSelectedSeats(availableToSelect);
     }
 
+    function confirmNoSelection(seatId){
+        const confirmation = window.confirm("Você tem certeza que deja desselecionar esse assento?");
+        if(confirmation){
+            unSelectSeat(seatId);
+        }
+    }
+
     return(
         <SeatsStyle>
             {props.filmSeats.seats.map((seat)=>{
                 if(!seat.isAvailable){
                     return(
-                        <UnAvailableSeat>
+                        <UnAvailableSeat key={seat.id}>
                             <p>{parseInt(seat.name) > 9 ? seat.name : '0' + seat.name}</p>
                         </UnAvailableSeat>
                     );
                 }
                 if(props.selectedSeats.includes(seat.id)){
                     return(
-                        <SelectedSeat onClick={()=>unSelectSeat(seat.id)}>
+                        <SelectedSeat key={seat.id} onClick={()=>confirmNoSelection(seat.id)}>
                             <p>{parseInt(seat.name) > 9 ? seat.name : '0' + seat.name}</p>
                         </SelectedSeat>
                     );
-                    
                 }
                 return(
-                    <AvailableSeat onClick={()=> selectSeat(seat.id)}>
+                    <AvailableSeat key={seat.id} onClick={()=> selectSeat(seat.id)}>
                         <p>{parseInt(seat.name) > 9 ? seat.name : '0' + seat.name}</p>
                     </AvailableSeat>
                 );
