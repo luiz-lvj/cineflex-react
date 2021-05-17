@@ -25,6 +25,7 @@ const SubTitle = styled.ul`
     margin-top: 16px;
     width: 87%;
     justify-content: space-between;
+    bottom: 120px;
     li{
         display: flex;
         flex-direction: column;
