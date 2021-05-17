@@ -39,7 +39,7 @@ export default function SeatsListPage(){
 
             <InputHandler seatsWithNames={filmSeats.seats} selectedSeats={selectedSeats}
                 setSelectedSeats={setSelectedSeats} movie={filmSeats.movie.title}
-                date={filmSeats.day.weekday} time={filmSeats.name}/>
+                date={filmSeats.day.date} time={filmSeats.name}/>
 
             <Footer>
                 <div>

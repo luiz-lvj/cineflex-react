@@ -6,6 +6,7 @@ export default function MainListSessions(props){
         <MainList>
             {props.filmSessions.days.map((day)=>{
                 return <SingleSession
+                key={day.id}
                 id={day.id}
                 weekday={day.weekday}
                 date={day.date}

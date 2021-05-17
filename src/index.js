@@ -6,6 +6,7 @@ import GlobalStyle from './components/resetCSS';
 import MoviesListPage from './components/MoviesListPage';
 import SessionsListPage from './components/SessionsListPage';
 import SeatsListPage from './components/SeatsListPage';
+import SuccessPage from './components/SuccessPage';
 
 function App(){
     return(
@@ -14,8 +15,8 @@ function App(){
                 <GlobalStyle/>
             </React.Fragment>
             
-            <Header/>
             <BrowserRouter>
+                <Header/>
                 <Switch>
                     <Route path="/" exact>
                         <MoviesListPage/>
@@ -25,6 +26,9 @@ function App(){
                     </Route>
                     <Route path="/assentos/:idSessao">
                         <SeatsListPage/>
+                    </Route>
+                    <Route path="/sucesso">
+                        <SuccessPage/>
                     </Route>
                 </Switch>
             </BrowserRouter>

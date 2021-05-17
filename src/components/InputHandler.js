@@ -1,8 +1,11 @@
 import styled from 'styled-components';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 
 export default function InputHandler(props){
+    const history = useHistory();
+
     const [buyers, setBuyers] = useState({});
     useEffect(()=>{
         const requestToSend = {
@@ -62,6 +65,16 @@ export default function InputHandler(props){
             const sent = JSON.parse(request.config.data)
             const seatsBuyers = sent.compradores;
             const seatsNames = sent.ids.map(id => getSeatName(id));
+            history.push({
+                pathname: '/sucesso',
+                state: {
+                    seatsBuyers: seatsBuyers,
+                    seatsNames: seatsNames,
+                    movie: props.movie,
+                    date: props.date,
+                    time: props.time
+                }
+            })
         })
     }
 
@@ -69,16 +82,14 @@ export default function InputHandler(props){
 
     function checkInputs(){
         const objs = buyers.compradores;
-        const nameError = "Há nomes Vazios. Todos devem estar preenchidos.\n";
-        const CPFError = "O CPF deve conter 11 dígitos e todos devem ser numéricos";
+        const nameError = "Há nomes Vazios. Todos os nomes devem estar preenchidos.\n";
+        const CPFError = "Os CPFs deve ter 11 dígitos e todos devem ser numéricos";
         for(let i = 0; i < objs.length; i++){
             const isValidName = validateName(objs[i].nome);
             const isValidCPF = validateCPF(objs[i].cpf);
             let errors = "";
             if(isValidName && isValidCPF){
-                setErrorMsg(errors);
-                sendData();
-                return;
+                continue;
             }
             if(!isValidName){
                 errors += nameError;
@@ -87,7 +98,10 @@ export default function InputHandler(props){
                 errors += CPFError;
             }
             setErrorMsg(errors);
-        }        
+            return;
+        }
+        setErrorMsg("");
+        sendData();
     }
 
     function validateName(inputName){
@@ -171,7 +185,7 @@ const InputsUser = styled.div`
     }
 `;
 
-const ButtonSubmit = styled.button`
+export const ButtonSubmit = styled.button`
     width: 225px;
     height: 42px;
     background: #E8833A;

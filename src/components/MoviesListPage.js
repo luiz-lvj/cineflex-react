@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
 import {useState, useEffect} from 'react';
 import axios from 'axios';
+import { useHistory } from 'react-router-dom';
 
 export default function MoviesListPage(){
     const [movies, setMovies] = useState([]);
@@ -29,7 +29,7 @@ export default function MoviesListPage(){
                 {movies.map((movie, idx)=>{
                     const url = "/sessoes/" + movie.id;
                     return(
-                        <SingleMovie idx={idx} url={url} posterURL={movie.posterURL}/>
+                        <SingleMovie key={idx} idx={idx} url={url} posterURL={movie.posterURL}/>
                     );
                 })}
             </ul>
@@ -38,9 +38,12 @@ export default function MoviesListPage(){
 }
 
 function SingleMovie(props){
+    let history = useHistory();
     return(
-        <li key={props.idx}>
-            <Link to={props.url}><img src={props.posterURL} alt=""></img></Link>
+        <li key={props.idx} onClick={()=>{
+            history.push(props.url);
+        }}>
+            <img src={props.posterURL} alt=""></img>
         </li>
     );
 }
